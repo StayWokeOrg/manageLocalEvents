@@ -39,13 +39,13 @@
   });
 
   firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
+    if (user) {
     // User is signed in.
-    console.log('user is signed in');
-  } else {
-    // No user is signed in.
-  }
-});
+      console.log('user is signed in');
+    } else {
+      // No user is signed in.
+    }
+  });
 
   Event.writetoFB = function (event) {
     console.log('saving to firebase');
@@ -57,23 +57,23 @@
     return firebasedb.ref('/publicInfo/zips/' + zip).once('value').then(function(snapshot) {
       var location = new google.maps.LatLng(snapshot.val().LAT,  snapshot.val().LNG)
       Event.returnNearest(location)
-  })
-}
+    })
+  }
 
   Event.returnNearest = function (location) {
     firebase.database().ref('/events/').once('value').then(function(snapshot) {
-    var locations = [];
-    snapshot.forEach(function(ele){
+      var locations = [];
+      snapshot.forEach(function(ele){
         locations.push(ele.val())
       })
-    var position = locations.reduce(function (prev, curr) {
-          var cpos = google.maps.geometry.spherical.computeDistanceBetween(location, new google.maps.LatLng(curr.lat,curr.long));
-          var ppos = google.maps.geometry.spherical.computeDistanceBetween(location,  new google.maps.LatLng(prev.lat,prev.long));
-          return cpos < ppos ? curr : prev;
+      var position = locations.reduce(function (prev, curr) {
+        var cpos = google.maps.geometry.spherical.computeDistanceBetween(location, new google.maps.LatLng(curr.lat,curr.long));
+        var ppos = google.maps.geometry.spherical.computeDistanceBetween(location,  new google.maps.LatLng(prev.lat,prev.long));
+        return cpos < ppos ? curr : prev;
+      })
+      console.log(position);
+      eventHandler.render(position.name+''+ position.address)
     })
-    console.log(position);
-    eventHandler.render(position.name+''+ position.address)
-})
   }
 
   Event.getLatandLog = function(event, address) {

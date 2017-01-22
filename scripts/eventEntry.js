@@ -14,8 +14,8 @@
 
   eventHandler.lookup = function (e) {
     e.preventDefault();
-      Event.lookupZip($('#look-up input').val())
-}
+    Event.lookupZip($('#look-up input').val())
+  }
   eventHandler.render = function (data) {
     $('#nearest').text(data)
   }
