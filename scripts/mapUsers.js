@@ -52,7 +52,7 @@
     })
   }
 
-  firebase.database().ref('/publicInfo/events').on('child_added', function getSnapShot(snapshot) {
+  firebase.database().ref('/events').on('child_added', function getSnapShot(snapshot) {
     var ele = snapshot.val()
     console.log(ele);
     var coords = [ele.long, ele.lat]
@@ -71,4 +71,5 @@
 
     })
   })
+  
 }(window.firebase))

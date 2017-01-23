@@ -12,36 +12,37 @@
         <h1>Add new event</h1>
         <form id="save-event" class="" action="#">
           <div class="form-group">
-            <label for="name">Event Name</label>
+            <label class="col-md-6" for="name">Event Name</label>
             <input type="text" name="name" value="" id="name">
           </div>
           <div class="form-group">
-            <label for="address">Address</label>
+            <label class="col-md-6" for="address">Address</label>
             <input type="text" name="address" value="" id="address">
           </div>
           <div class="form-group">
-            <label for="date">Date</label>
+            <label class="col-md-6" for="date">Date</label>
             <input type="date" name="address" value="" id="date">
           </div>
           <div class="form-group">
-            <label for="time">Start Time</label>
-            <input type="text" name="time" value="" id="time">
+            <label class="col-md-6" for="time">Start Time (use local time)</label>
+            <input type="time" name="time" value="" id="time">
           </div>
           <div class="form-group">
-            <label for="link">Link</label>
+            <label class="col-md-6" for="link">Link</label>
               <input type="text" name="link" value="" id="link">
           </div>
           <button type="submit" name="button">Save</button>
         </form>
         <form id="look-up" class="" action="index.html" method="post">
           <div class="form-group">
-            <label for="zip">Look Up Events by Zip</label>
+            <label class="col-md-6" for="zip">Look Up Events by Zip</label>
             <input type="zip" name="" value="">
           </div>
           <button type="submit" name="button">Look Up</button>
 
         </form>
       </section>
+      <div id="nearest"></div>
 
       <div id="map"></div>
 
@@ -57,7 +58,7 @@
     <script src="/scripts/eventEntry.js"></script>
     <script src="/scripts/mapUsers.js"></script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_1gaWM06y2_P1kbH4jTMi3zy6vJUYp1E&callback=initMap&libraries=visualization"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_1gaWM06y2_P1kbH4jTMi3zy6vJUYp1E&callback=initMap&libraries=visualization,geometry"></script>
 
 
 
