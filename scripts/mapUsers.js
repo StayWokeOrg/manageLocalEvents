@@ -1,4 +1,3 @@
-f
 (function closure(firebase) {
   var map
   var google
@@ -70,5 +69,4 @@ f
 
     })
   })
-
 }(window.firebase))

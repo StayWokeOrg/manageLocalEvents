@@ -1,9 +1,9 @@
-(function(module) {
+(function (module) {
 
-  //Event object
-  function Event (opts) {
+  // Event object
+  function Event(opts) {
     for (var key in opts) {
-      this[key] = opts[key];
+      this[key] = opts[key]
     }
   }
 
@@ -18,17 +18,17 @@
 
   firebase.initializeApp(config)
 
-  //local ref to firebase
+  // local ref to firebase
   var firebasedb = firebase.database()
 
   //auth with Google
-  var provider = new firebase.auth.GoogleAuthProvider();
+  var provider = new firebase.auth.GoogleAuthProvider()
 
-  //Sign in with google auth popup
-  Event.signIn = function (){
-    firebase.auth().signInWithPopup(provider).then(function(result) {
+  // Sign in with google auth popup
+  Event.signIn = function () {
+    firebase.auth().signInWithPopup(provider).then(function (result) {
       // This gives you a Google Access Token. You can use it to access the Google API.
-      var token = result.credential.accessToken;
+      var token = result.credential.accessToken
       // The signed-in user info.
       var user = result.user;
     }).catch(function(error) {
@@ -44,7 +44,7 @@
   }
 
   // checks if there is a user, if not, prompt to sign in
-  firebase.auth().onAuthStateChanged(function(user) {
+  firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
     // User is signed in.
       console.log(user.displayName, ' is signed in');
@@ -65,7 +65,7 @@
   // looks up the lat and lng of a zip code
   Event.lookupZip = function (zip) {
     return firebasedb.ref('/publicInfo/zips/' + zip).once('value').then(function(snapshot) {
-      var location = new google.maps.LatLng(snapshot.val().LAT,  snapshot.val().LNG)
+      var location = new google.maps.LatLng(snapshot.val().LAT, snapshot.val().LNG)
       Event.returnNearest(location)
     })
   }
@@ -73,16 +73,18 @@
   // given a zip code return the nearest event
   Event.returnNearest = function (location) {
     firebase.database().ref('/events/').once('value').then(function(snapshot) {
-      var locations = [];
-      snapshot.forEach(function(ele){
+      var locations = []
+      snapshot.forEach(function (ele) {
         locations.push(ele.val())
       })
       // TODO: return a list of 5 or return within a radius
       // also not sure if google api is overkill depending on how many
-      // events we have 
+      // events we have
       var position = locations.reduce(function (prev, curr) {
-        var cpos = google.maps.geometry.spherical.computeDistanceBetween(location, new google.maps.LatLng(curr.lat,curr.long));
-        var ppos = google.maps.geometry.spherical.computeDistanceBetween(location,  new google.maps.LatLng(prev.lat,prev.long));
+        var cpos = google.maps.geometry.spherical
+        .computeDistanceBetween(location, new google.maps.LatLng(curr.lat, curr.long));
+        var ppos = google.maps.geometry.spherical
+        .computeDistanceBetween(location,  new google.maps.LatLng(prev.lat, prev.long));
         return cpos < ppos ? curr : prev;
       })
       console.log(position);
@@ -91,14 +93,14 @@
   }
 
   // Get lat and lng of an address and save the event
-  Event.getLatandLog = function(event, address) {
+  Event.getLatandLog = function (event, address) {
     $.ajax({
-      url : 'https://maps.googleapis.com/maps/api/geocode/json',
-      data : {
-        'address' : address
+      url: 'https://maps.googleapis.com/maps/api/geocode/json',
+      data: {
+        'address': address
       },
-      dataType : 'json',
-      success: function(r){
+      dataType: 'json',
+      success: function (r) {
         console.log('success', r);
         event.lat = r.results[0].geometry.location.lat
         event.long = r.results[0].geometry.location.lng
@@ -107,10 +109,10 @@
         console.log(event);
       },
       error: function(e){
-        console.log('error', e);
+        console.log('error', e)
       }
     })
   }
 
-  module.Event = Event;
-})(window);
+  module.Event = Event
+})(window)
