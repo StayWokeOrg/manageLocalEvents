@@ -1,27 +1,42 @@
 (function(module) {
   var firebasedb = firebase.database()
 
-  var eventHandler = {};
-  eventHandler.save = function (e) {
+  var newEventHandler = {};
+
+  //submit a new event
+  newEventHandler.save = function (e) {
     e.preventDefault();
-    var newEvent = new Event( $('#save-event input').get().reduce(function(newObj, cur){
-      newObj[cur.id] = $(cur).val();
-      return newObj;
-    }, {})
-  );
-    Event.getLatandLog(newEvent, newEvent.address);
+    // check if the date is in the future
+    var date = new Date($("#date").val());
+    if (date - new Date < 0) {
+      $('#date-alert').removeClass('hidden')
+      $('#date-alert').focus()
+    }
+    else {
+      $('#date-alert').addClass('hidden')
+      var newEvent = new Event( $('#save-event input').get().reduce(function(newObj, cur){
+        newObj[cur.id] = $(cur).val();
+        return newObj;
+      }, {})
+    );
+      newEvent[date] = date
+      Event.getLatandLog(newEvent, newEvent.address);
+    }
   };
 
-  eventHandler.lookup = function (e) {
+
+  newEventHandler.lookup = function (e) {
     e.preventDefault();
     Event.lookupZip($('#look-up input').val())
   }
-  eventHandler.render = function (data) {
+
+  newEventHandler.render = function (data) {
+    // TODO: add templating to render this
     $('#nearest').text(data)
   }
 
-  $('#save-event').on('submit', eventHandler.save);
-  $('#look-up').on('submit', eventHandler.lookup);
+  $('#save-event').on('submit', newEventHandler.save);
+  $('#look-up').on('submit', newEventHandler.lookup);
 
-  module.eventHandler = eventHandler;
+  module.newEventHandler = newEventHandler;
 })(window);

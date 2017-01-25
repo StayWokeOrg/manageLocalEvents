@@ -1,4 +1,3 @@
-
 (function closure(firebase) {
   var map
   var google
@@ -54,7 +53,6 @@
 
   firebase.database().ref('/events').on('child_added', function getSnapShot(snapshot) {
     var ele = snapshot.val()
-    console.log(ele);
     var coords = [ele.long, ele.lat]
     var latLng = new google.maps.LatLng(coords[1], coords[0])
     // eslint-disable-next-line no-unused-vars
@@ -71,5 +69,4 @@
 
     })
   })
-  
 }(window.firebase))
